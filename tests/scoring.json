@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "weight_policy": {
+    "version": 1,
+    "basis": "business_priority",
+    "core_min_share": 0.5
+  },
+  "gate_tests": [
+    "test_outputs.py::test_gate_reports_all_probe_metrics"
+  ],
+  "tests": {
+    "test_outputs.py::test_six_run_discrete_event_parameters_are_recovered": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "六组运行联合恢复服务、返工与缓冲参数，是数字孪生可投入换批预测的核心。"
+    },
+    "test_outputs.py::test_probe_completions_follow_calibrated_rework": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "探针放料必须沿用校准模型，完成量和期末在制直接决定次日产能承诺。"
+    },
+    "test_outputs.py::test_rework_probability_changes_backend_busy_time": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "后段忙碌时间体现返工比例的因果影响，不能靠静态平均值蒙混过关。"
+    },
+    "test_outputs.py::test_finite_buffer_exposes_blocked_seconds": {
+      "weight": 0.15,
+      "priority": "core",
+      "rationale": "有限缓冲造成的阻塞是换线瓶颈判断的关键观测，必须由仿真真实复现。"
+    },
+    "test_outputs.py::test_eight_release_minutes_are_accepted": {
+      "weight": 0.08,
+      "priority": "boundary",
+      "rationale": "八点放料是公开数量下界，允许边界可避免短试产批次被错误拒收。"
+    },
+    "test_outputs.py::test_seven_release_minutes_are_refused": {
+      "weight": 0.08,
+      "priority": "boundary",
+      "rationale": "不足八点的放料无法形成公开要求的最小校正样本，应提前拒收。"
+    },
+    "test_outputs.py::test_duplicate_run_id_is_refused": {
+      "weight": 0.08,
+      "priority": "schema",
+      "rationale": "重复运行号会让校正样本重复计权，必须在仿真前阻断整批数据。"
+    },
+    "test_outputs.py::test_extra_top_level_key_is_refused": {
+      "weight": 0.08,
+      "priority": "schema",
+      "rationale": "额外字段意味着导出版本不匹配，提前拒收可避免使用错误观测口径。"
+    },
+    "test_outputs.py::test_success_output_is_compact_sorted_and_newline_terminated": {
+      "weight": 0.08,
+      "priority": "supporting",
+      "rationale": "稳定序列化保证数字孪生参数能进入版本化归档并逐次比较漂移。"
+    }
+  }
+}
