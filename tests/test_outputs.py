@@ -229,7 +229,7 @@ def test_finite_buffer_exposes_blocked_seconds(tmp_path: Path) -> None:
 
 def test_eight_release_minutes_are_accepted(tmp_path: Path) -> None:
     """题面：
-    「`python3 /app/fit_fab_sim.py <input.json> <output.json>`。成功时不向标准输出或标准错误」
+    「入口为 `/app/fit_fab_sim.py`，按 `<input.json> <output.json>` 两个位置参数调用。」
     """
 
     payload, _, _ = _payload(5)
@@ -317,7 +317,7 @@ def test_success_output_is_compact_sorted_and_newline_terminated(tmp_path: Path)
 
 def test_gate_reports_all_probe_metrics(tmp_path: Path) -> None:
     """题面：
-    「退出码为 2。落盘紧凑 JSON，字段名按字母升序，文件尾只留一个换行。候选程序不得读取」
+    「成功写入无空格 JSON，键按字典序排列，正文后恰好一个换行。」
     """
 
     payload, expected, _ = _payload()
