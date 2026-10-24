@@ -9,6 +9,15 @@ from pathlib import Path
 
 
 ENTRY = os.environ.get("FAB_CALIBRATOR", "/app/fit_fab_sim.py")
+
+SAFE_ENV = {
+    "PATH": "/usr/bin:/bin",
+    "HOME": "/tmp",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONHASHSEED": "0",
+}
 TRUE_PARAMETERS = {
     "service_a_sec": 35,
     "service_b_sec": 50,
@@ -27,9 +36,10 @@ OBSERVATION_KEYS = (
 
 def _run(payload: Path, output: Path) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        [sys.executable, ENTRY, str(payload), str(output)],
+        [sys.executable, "-S", "-P", "-B", ENTRY, str(payload), str(output)],
         text=True,
         capture_output=True,
+        env=SAFE_ENV,
         timeout=60,
         check=False,
     )
